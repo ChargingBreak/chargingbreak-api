@@ -1,0 +1,60 @@
+Resources:
+  SuperchargeInfo: 
+    Type: 'AWS::DynamoDB::Table'
+    DeletionPolicy: Retain
+    Properties:
+      TableName: ${self:provider.environment.SUPERCHARGERINFO_TABLE}
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "N"
+        - AttributeName: name
+          AttributeType: "S"
+        - AttributeName: status
+          AttributeType: "S"
+        - AttributeName: latitude
+          AttributeType: "N"
+        - AttributeName: longitude
+          AttributeType: "N"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 20 # have to keep it under 5 minutes, ick!
+      GlobalSecondaryIndexes:
+        - IndexName: "name-index"
+          KeySchema:
+            - AttributeName: "name"
+              KeyType: HASH
+          Projection: 
+            ProjectionType: "ALL"
+          ProvisionedThroughput: 
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+        - IndexName: "status-index"
+          KeySchema:
+            - AttributeName: "status"
+              KeyType: HASH
+          Projection: 
+            ProjectionType: "ALL"
+          ProvisionedThroughput: 
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+        - IndexName: "latitude-index"
+          KeySchema:
+            - AttributeName: "latitude"
+              KeyType: HASH
+          Projection: 
+            ProjectionType: "ALL"
+          ProvisionedThroughput: 
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+        - IndexName: "longitude-index"
+          KeySchema:
+            - AttributeName: "longitude"
+              KeyType: HASH
+          Projection: 
+            ProjectionType: "ALL"
+          ProvisionedThroughput: 
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1

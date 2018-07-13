@@ -1,0 +1,71 @@
+service: update-chargers
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+# frameworkVersion: "=X.X.X"
+
+provider:
+  name: aws
+  runtime: python3.6
+  stackName: chargingbreak-${self:provider.stage}
+  stage: ${opt:stage, self:custom.defaultStage}
+  profile: ${self:custom.profiles.${git:branch}}
+  environment:
+    SUPERCHARGERINFO_TABLE: SuperchargerInfo
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:BatchGetItem
+        - dynamodb:BatchWriteItem
+      Resource: "arn:aws:dynamodb:*:*:table/${self:provider.environment.SUPERCHARGERINFO_TABLE}"
+        
+custom:
+  defaultStage: ${git:branch}
+  profiles:
+    master: ${file(../secrets.profiles.yml):masterprofile}
+    dev: ${file(../secrets.profiles.yml):devprofile}
+  customDomain:
+    domainName: api.chargingbreak.com
+    basePath: ""
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+    
+plugins:
+  - serverless-plugin-git-variables
+  - serverless-domain-manager
+  
+functions:
+  adminUpdateChargers:
+    handler: src/admin/update.main
+    timeout: 300 #need a long timeout to load everything, this is max
+    description: >
+      Download latest data from supercharge.info 
+      Load into DynamoDB:${self:provider.environment.SUPERCHARGERINFO_TABLE}
+    
+  search:
+    handler: src/search.main
+    events:
+      - http:
+          path: search
+          method: get
+          cors: true
+
+  charger:
+    handler: src/charger.main
+    events:
+      - http:
+          path: charger/{id}
+          method: get
+          cors: true
+          integration: lambda
+          request:
+            paths:
+              id: false
+resources:
+  - ${file(resources/tables/SuperchargeInfo.yml)}
