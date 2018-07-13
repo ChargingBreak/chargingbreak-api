@@ -54,7 +54,7 @@ functions:
       - http:
           path: search
           method: get
-          cors: true
+          cors: false
 
   charger:
     handler: src/charger.main
@@ -62,8 +62,8 @@ functions:
       - http:
           path: charger/{id}
           method: get
-          cors: true
-          integration: lambda
+          cors: false
+          integration: lambda-proxy
           request:
             paths:
               id: false
