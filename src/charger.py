@@ -92,13 +92,18 @@ def get(event, context):
 
             body = json.dumps(data, cls=de.DecimalEncoder)
         else:
+            params = {
+                'TableName': os.environ['SUPERCHARGERINFO_TABLE'],
+                'IndexName': 'status-index',
+            }
+
             if not cid:
                 cid = 'OPEN'
-            response = table.scan(
-                TableName=os.environ['SUPERCHARGERINFO_TABLE'],
-                IndexName='status-index',
-                FilterExpression=Attr('status').eq(cid),
-            )
+
+            if cid != 'ALL':
+                params['FilterExpression'] = Attr('status').eq(cid)
+
+            response = table.scan(**params)
             body = json.dumps(response['Items'], cls=de.DecimalEncoder)
     except Exception as e:
         body = json.dumps({'message': str(e)})
