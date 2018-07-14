@@ -98,7 +98,14 @@ def get(event, context):
 
     return {
         "statusCode": statusCode,
-        "body": body
+        "body": body,
+        "headers": {
+            # TODO: MPN: need to set this for real before live
+            # useful to have * for now for local dev
+            # 'https://chargingbreak.com'
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true',
+        },
     }
 
 

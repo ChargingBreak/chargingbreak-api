@@ -7,12 +7,12 @@ charger:
     - http:
         path: charger
         method: get
-        cors: false
+        cors: true
         integration: lambda-proxy
     - http:
         path: charger/{id}
         method: get
-        cors: false
+        cors: true
         integration: lambda-proxy
         request:
           paths:

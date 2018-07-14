@@ -40,3 +40,5 @@ sls deploy function -f <function_name>
   * For Google: Enable Google (callback url is main website)
   * OAuth2.0 (Enable Authorization code grant and Implicit grant)
   * Scopes (email, openid, profile) - set aws... if you want to do user/pass
+  
+#https://auth.chargingbreak.com/login?response_type=code&client_id=5d77blp7u449meaq8qlequfhmn&redirect_uri=https://chargingbreak.com
