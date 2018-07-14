@@ -1,0 +1,19 @@
+charger:
+  handler: src/charger.main
+  description: >
+    API /charger/{id} - 
+    Retrieve all chargers or specific chargers with extended info. 
+  events:
+    - http:
+        path: charger
+        method: get
+        cors: false
+        integration: lambda-proxy
+    - http:
+        path: charger/{id}
+        method: get
+        cors: false
+        integration: lambda-proxy
+        request:
+          paths:
+            id: false

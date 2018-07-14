@@ -1,0 +1,6 @@
+adminUpdateChargers:
+  handler: src/admin/update.main
+  timeout: 300 #need a long timeout to load everything, this is max
+  description: >
+    Download latest data from supercharge.info and
+    load into DynamoDB:${self:provider.environment.SUPERCHARGERINFO_TABLE}

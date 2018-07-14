@@ -40,42 +40,12 @@ plugins:
   - serverless-plugin-git-variables
   - serverless-domain-manager
   
-functions:
-  adminUpdateChargers:
-    handler: src/admin/update.main
-    timeout: 300 #need a long timeout to load everything, this is max
-    description: >
-      Download latest data from supercharge.info and
-      load into DynamoDB:${self:provider.environment.SUPERCHARGERINFO_TABLE}
-    
-  search:
-    handler: src/search.main
-    description: >
-      API /search - Search for chargers by .... (need to define)
-    events:
-      - http:
-          path: search
-          method: get
-          cors: false
 
-  charger:
-    handler: src/charger.main
-    description: >
-      API /charger/{id} - 
-      Retrieve all chargers or specific chargers with extended info. 
-    events:
-      - http:
-          path: charger
-          method: get
-          cors: false
-          integration: lambda-proxy
-      - http:
-          path: charger/{id}
-          method: get
-          cors: false
-          integration: lambda-proxy
-          request:
-            paths:
-              id: false
+functions:
+  - ${file(resources/functions/charger.yml)}
+  - ${file(resources/functions/adminUpdateChargers.yml)}
+  - ${file(resources/functions/search.yml)}
+  
 resources:
   - ${file(resources/tables/SuperchargeInfo.yml)}
+  - ${file(resources/CBUser.yml)}
