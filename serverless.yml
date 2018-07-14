@@ -45,11 +45,13 @@ functions:
     handler: src/admin/update.main
     timeout: 300 #need a long timeout to load everything, this is max
     description: >
-      Download latest data from supercharge.info 
-      Load into DynamoDB:${self:provider.environment.SUPERCHARGERINFO_TABLE}
+      Download latest data from supercharge.info and
+      load into DynamoDB:${self:provider.environment.SUPERCHARGERINFO_TABLE}
     
   search:
     handler: src/search.main
+    description: >
+      API /search - Search for chargers by .... (need to define)
     events:
       - http:
           path: search
@@ -58,6 +60,9 @@ functions:
 
   charger:
     handler: src/charger.main
+    description: >
+      API /charger/{id} - 
+      Retrieve all chargers or specific chargers with extended info. 
     events:
       - http:
           path: charger
