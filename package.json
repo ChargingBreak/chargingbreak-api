@@ -1,0 +1,10 @@
+{
+  "name": "chargingbreak",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "serverless": "^1.16.0",
+    "serverless-domain-manager": "^2.6.0",
+    "serverless-plugin-git-variables": "^2.1.1"
+  }
+}
