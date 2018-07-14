@@ -19,8 +19,9 @@ Resources:
         - AttributeName: "id"
           KeyType: "HASH"
       ProvisionedThroughput: 
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 20 # have to keep it under 5 minutes, ick!
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 25
+          # At 20 it times out after 5 minutes. at 25 it completes in seconds
       GlobalSecondaryIndexes:
         - IndexName: "name-index"
           KeySchema:
