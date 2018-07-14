@@ -9,7 +9,6 @@ provider:
   runtime: python3.6
   stackName: chargingbreak-${self:provider.stage}
   stage: ${opt:stage, self:custom.defaultStage}
-  profile: ${self:custom.profiles.${git:branch}}
   environment:
     SUPERCHARGERINFO_TABLE: SuperchargerInfo
   iamRoleStatements:
@@ -27,9 +26,6 @@ provider:
         
 custom:
   defaultStage: ${git:branch}
-  profiles:
-    master: ${file(../secrets.profiles.yml):masterprofile}
-    dev: ${file(../secrets.profiles.yml):devprofile}
   customDomain:
     domainName: api.chargingbreak.com
     basePath: ""
@@ -39,7 +35,6 @@ custom:
 plugins:
   - serverless-plugin-git-variables
   - serverless-domain-manager
-  
 
 functions:
   - ${file(resources/functions/charger.yml)}

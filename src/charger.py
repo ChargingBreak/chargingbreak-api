@@ -2,6 +2,7 @@ import json
 import os
 
 import boto3
+from boto3.dynamodb.conditions import Attr
 from src import decimalencoder as de
 
 
@@ -72,11 +73,13 @@ def get(event, context):
     statusCode = 200
 
     try:
-        if ('pathParameters' in event
+        cid = event['pathParameters']['id'] if (
+            'pathParameters' in event
             and event['pathParameters']
-                and 'id' in event['pathParameters']):
+            and 'id' in event['pathParameters']) else None
+        if cid and cid.isdigit():
             item = table.get_item(
-                Key={'id': int(event['pathParameters']['id'])})
+                Key={'id': int(cid)})
 
             # Munge lat/lon, had to un-nest for searching
             data = item['Item']
@@ -89,8 +92,13 @@ def get(event, context):
 
             body = json.dumps(data, cls=de.DecimalEncoder)
         else:
-            # Need to work out DynamoDB read limits to pull EVERYTHING
-            response = table.scan(os.environ['SUPERCHARGERINFO_TABLE'])
+            if not cid:
+                cid = 'OPEN'
+            response = table.scan(
+                TableName=os.environ['SUPERCHARGERINFO_TABLE'],
+                IndexName='status-index',
+                FilterExpression=Attr('status').eq(cid),
+            )
             body = json.dumps(response['Items'], cls=de.DecimalEncoder)
     except Exception as e:
         body = json.dumps({'message': str(e)})
@@ -112,6 +120,8 @@ def get(event, context):
 methods = {
     'GET': get,
     'POST': post,
+
+
 }
 
 
