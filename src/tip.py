@@ -25,7 +25,7 @@ def post(event, context):
                 response = table.put_item(
                    Item={
                         'id': str(uuid.uuid4()),
-                        'charger_id': cid,
+                        'charger_id': int(cid),
                         'user_id': event['requestContext']['authorizer']['claims']['sub'],
                         'text': postBody['text'],
                         'category': postBody['category']
