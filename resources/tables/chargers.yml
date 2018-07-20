@@ -1,9 +1,9 @@
 Resources:
-  SuperchargeInfo: 
+  chargers: 
     Type: 'AWS::DynamoDB::Table'
     DeletionPolicy: Retain
     Properties:
-      TableName: ${self:provider.environment.SUPERCHARGERINFO_TABLE}
+      TableName: ${self:provider.environment.CHARGERS_TABLE}
       AttributeDefinitions:
         - AttributeName: "id"
           AttributeType: "N"

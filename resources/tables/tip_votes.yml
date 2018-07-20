@@ -1,0 +1,27 @@
+Resources:
+  tipvotes: 
+    Type: 'AWS::DynamoDB::Table'
+    DeletionPolicy: Retain
+    Properties:
+      TableName: ${self:provider.environment.TIP_VOTES_TABLE}
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "N"
+        - AttributeName: tip_id
+          AttributeType: "N"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+      GlobalSecondaryIndexes:
+        - IndexName: "tip_id-index"
+          KeySchema:
+            - AttributeName: "tip_id"
+              KeyType: HASH
+          Projection: 
+            ProjectionType: "ALL"
+          ProvisionedThroughput: 
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1

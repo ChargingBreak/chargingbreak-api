@@ -67,7 +67,7 @@ def get_ratings(charger_id):
 
 def get(event, context):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table(os.environ['SUPERCHARGERINFO_TABLE'])
+    table = dynamodb.Table(os.environ['CHARGERS_TABLE'])
 
     body = "Unknown Error"
     statusCode = 200
@@ -93,7 +93,7 @@ def get(event, context):
             body = json.dumps(data, cls=de.DecimalEncoder)
         else:
             params = {
-                'TableName': os.environ['SUPERCHARGERINFO_TABLE'],
+                'TableName': os.environ['CHARGERS_TABLE'],
                 'IndexName': 'status-index',
             }
 

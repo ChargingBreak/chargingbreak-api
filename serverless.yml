@@ -10,7 +10,10 @@ provider:
   stackName: chargingbreak-${self:provider.stage}
   stage: ${opt:stage, self:custom.defaultStage}
   environment:
-    SUPERCHARGERINFO_TABLE: SuperchargerInfo
+    CHARGERS_TABLE: chargers
+    TIPS_TABLE: tips
+    TIP_VOTES_TABLE: tip_votes
+    RATINGS_TABLE: ratings
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -22,7 +25,11 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:BatchGetItem
         - dynamodb:BatchWriteItem
-      Resource: "arn:aws:dynamodb:*:*:table/${self:provider.environment.SUPERCHARGERINFO_TABLE}"
+      Resource:
+        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.CHARGERS_TABLE}"
+        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIPS_TABLE}"
+        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIP_VOTES_TABLE}"
+        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.RATINGS_TABLE}"
         
 custom:
   defaultStage: ${git:branch}
@@ -42,5 +49,8 @@ functions:
   - ${file(resources/functions/search.yml)}
   
 resources:
-  - ${file(resources/tables/SuperchargeInfo.yml)}
+  - ${file(resources/tables/chargers.yml)}
+  - ${file(resources/tables/tips.yml)}
+  - ${file(resources/tables/tip_votes.yml)}
+  - ${file(resources/tables/ratings.yml)}
   - ${file(resources/CBUser.yml)}

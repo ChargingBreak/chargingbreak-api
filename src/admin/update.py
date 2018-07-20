@@ -16,7 +16,7 @@ def main(event, context):
         error = str(e)
     else:
         dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table(os.environ['SUPERCHARGERINFO_TABLE'])
+        table = dynamodb.Table(os.environ['CHARGERS_TABLE'])
 
         num_chargers = 0
         with table.batch_writer() as batch:
