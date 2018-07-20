@@ -1,12 +1,12 @@
 Resources:
-  ratings: 
+  ratingstable: 
     Type: 'AWS::DynamoDB::Table'
     DeletionPolicy: Retain
     Properties:
       TableName: ${self:provider.environment.RATINGS_TABLE}
       AttributeDefinitions:
         - AttributeName: "id"
-          AttributeType: "N"
+          AttributeType: "S"
         - AttributeName: charger_id
           AttributeType: "N"
       KeySchema:

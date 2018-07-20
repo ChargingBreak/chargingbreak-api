@@ -1,0 +1,18 @@
+tip:
+  handler: src/tip.main
+  description: >
+    API /tip/{id} - 
+    Submit tip for a given charger.
+  events:
+    - http:
+        path: tip/{id}
+        method: post
+        cors: true
+        integration: lambda-proxy
+        request:
+          paths:
+            id: false
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId: 
+            Ref: ApiGatewayAuthorizer

@@ -1,5 +1,5 @@
 Resources:
-  chargers: 
+  chargerstable: 
     Type: 'AWS::DynamoDB::Table'
     DeletionPolicy: Retain
     Properties:

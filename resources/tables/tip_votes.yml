@@ -1,14 +1,14 @@
 Resources:
-  tipvotes: 
+  tipvotestable: 
     Type: 'AWS::DynamoDB::Table'
     DeletionPolicy: Retain
     Properties:
       TableName: ${self:provider.environment.TIP_VOTES_TABLE}
       AttributeDefinitions:
         - AttributeName: "id"
-          AttributeType: "N"
+          AttributeType: "S"
         - AttributeName: tip_id
-          AttributeType: "N"
+          AttributeType: "S"
       KeySchema:
         - AttributeName: "id"
           KeyType: "HASH"
