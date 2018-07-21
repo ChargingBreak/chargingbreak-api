@@ -9,4 +9,4 @@ Resources:
         Ref: ApiGatewayRestApi
       Type: COGNITO_USER_POOLS
       ProviderARNs: 
-        - arn:aws:cognito-idp:us-east-1:343238103616:userpool/us-east-1_Rtshp0rgF
+        - ${self:provider.environment.USER_POOL_ARN}

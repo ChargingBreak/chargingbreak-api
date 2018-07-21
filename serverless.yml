@@ -14,6 +14,8 @@ provider:
     TIPS_TABLE: tips
     TIP_VOTES_TABLE: tip_votes
     RATINGS_TABLE: ratings
+    USER_POOL_ARN:
+      Fn::GetAtt: [ CBUser, Arn ]
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -25,11 +27,13 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:BatchGetItem
         - dynamodb:BatchWriteItem
+        - cognito-idp:*
       Resource:
         - "arn:aws:dynamodb:*:*:table/${self:provider.environment.CHARGERS_TABLE}"
         - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIPS_TABLE}"
         - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIP_VOTES_TABLE}"
         - "arn:aws:dynamodb:*:*:table/${self:provider.environment.RATINGS_TABLE}"
+        - "${self:provider.environment.USER_POOL_ARN}"
         
 package:
   individually: true
@@ -56,6 +60,7 @@ functions:
   - ${file(resources/functions/adminUpdateChargers.yml)}
   - ${file(resources/functions/search.yml)}
   - ${file(resources/functions/tip.yml)}
+  - ${file(resources/functions/user.yml)}
   
 resources:
   - ${file(resources/tables/chargers.yml)}

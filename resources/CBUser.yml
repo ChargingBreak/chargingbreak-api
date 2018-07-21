@@ -1,6 +1,7 @@
 Resources:
   CBUser: 
     Type: "AWS::Cognito::UserPool"
+    DeletionPolicy: Retain
     Properties:
       Policies: 
         PasswordPolicy: 

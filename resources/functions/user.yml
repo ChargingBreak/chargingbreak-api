@@ -1,0 +1,18 @@
+user:
+  package:
+    include:
+      - src/user.py
+      - src/decimalencoder.py
+  handler: src/user.main
+  description: >
+    API /user/{user_sub} - 
+    Get information about a user
+  events:
+    - http:
+        path: user/{user_sub}
+        method: get
+        cors: true
+        integration: lambda-proxy
+        request:
+          paths:
+            user_sub: true

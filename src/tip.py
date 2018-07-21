@@ -15,6 +15,8 @@ def post(event, context):
     responseBody = "Unknown Error"
     statusCode = 200
 
+    print(event['requestContext']['authorizer'])
+
     try:
         cid = event['pathParameters']['id'] if (
             'pathParameters' in event
