@@ -1,6 +1,5 @@
 import json
 import os
-import uuid
 from datetime import date, datetime
 
 import boto3
@@ -44,7 +43,10 @@ def get(event, context):
 
             return {
                 "statusCode": 200,
-                "body": json.dumps(user_info, cls=de.DecimalEncoder, default=json_serial),
+                "body": json.dumps(
+                    user_info,
+                    cls=de.DecimalEncoder,
+                    default=json_serial),
                 "headers": {
                     # TODO: MPN: need to set this for real before live
                     # useful to have * for now for local dev
@@ -57,7 +59,7 @@ def get(event, context):
     # all else fails, give a 404
     return {
         "statusCode": 404,
-        "body": "[]",
+        "body": "",
         "headers": {
             # TODO: MPN: need to set this for real before live
             # useful to have * for now for local dev
