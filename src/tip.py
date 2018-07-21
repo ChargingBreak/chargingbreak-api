@@ -6,6 +6,7 @@ import boto3
 from boto3.dynamodb.conditions import Attr
 from src import decimalencoder as de
 
+
 def post(event, context):
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['TIPS_TABLE'])
@@ -23,7 +24,7 @@ def post(event, context):
         if cid and cid.isdigit():
             if 'text' in postBody and 'category' in postBody:
                 response = table.put_item(
-                   Item={
+                    Item={
                         'id': str(uuid.uuid4()),
                         'charger_id': int(cid),
                         'user_id': event['requestContext']['authorizer']['claims']['sub'],
@@ -65,4 +66,14 @@ def main(event, context):
     if 'httpMethod' in event:
         return methods[event['httpMethod']](event, context)
 
-    return {"statusCode": 404}
+    return {
+        "statusCode": 404,
+        "body": "",
+        "headers": {
+            # TODO: MPN: need to set this for real before live
+            # useful to have * for now for local dev
+            # 'https://chargingbreak.com'
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true',
+        },
+    }

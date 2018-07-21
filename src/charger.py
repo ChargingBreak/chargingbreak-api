@@ -9,7 +9,14 @@ from src import decimalencoder as de
 def post(event, context):
     response = {
         "statusCode": 200,
-        "body": json.dumps({'data': 'nothing'})
+        "body": json.dumps({'data': 'nothing'}),
+        "headers": {
+            # TODO: MPN: need to set this for real before live
+            # useful to have * for now for local dev
+            # 'https://chargingbreak.com'
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true',
+        },
     }
 
     return response
@@ -134,4 +141,14 @@ def main(event, context):
     if 'httpMethod' in event:
         return methods[event['httpMethod']](event, context)
 
-    return {"statusCode": 404}
+    return {
+        "statusCode": 404,
+        "body": "",
+        "headers": {
+            # TODO: MPN: need to set this for real before live
+            # useful to have * for now for local dev
+            # 'https://chargingbreak.com'
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': 'true',
+        },
+    }

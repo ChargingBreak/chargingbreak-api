@@ -11,7 +11,7 @@ tip:
         integration: lambda-proxy
         request:
           paths:
-            id: false
+            id: true
         authorizer:
           type: COGNITO_USER_POOLS
           authorizerId: 
