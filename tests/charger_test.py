@@ -1,12 +1,8 @@
 import os
-import unittest
 from unittest import mock
-
-import pytest
 
 import boto3
 import moto
-from moto.dynamodb2 import dynamodb_backend2
 
 CHARGERS_TABLE = 'chargers'
 
@@ -63,7 +59,6 @@ class TestMethodsClass(object):
     @mock.patch.dict(os.environ, {'CHARGERS_TABLE': CHARGERS_TABLE})
     def test_http_get_all_chargers_invalid(self):
         from src import charger
-        from moto.dynamodb import dynamodb_backend
 
         event = {
             'httpMethod': 'GET',
@@ -222,13 +217,15 @@ class TestMethodsClass(object):
                 'scenic Skyline Drive, using the Front Royal '
                 'entrance, about 6 miles from the '
                 'Supercharger", "photoUrl": "/img/uploads/IMG_7666.JPG"}, '
-                '{"chargerId": 632, "userId": 1, "theme": "FOOD", "description"'
+                '{"chargerId": 632, "userId": 1, "theme": "FOOD", '
+                '"description"'
                 ': "If Burger King isn\'t your thing, call Little '
                 'Anthony\'s Pizza, and pick up your order '
                 'on the way to the Supercharger (it\'s '
                 'right around the corner)", "photoUrl": "https://lh3.ggpht.com'
                 '/p/AF1QipPUpgIgqbOXSziYf_D_iMZhWOwsYarml0TShqKM=s512"}], '
-                '"ratings": [{"theme": "FOOD", "rating": 3}, {"theme": "KIDS", '
+                '"ratings": [{"theme": "FOOD", "rating": 3}, '
+                '{"theme": "KIDS", '
                 '"rating": 3}, {"theme": "RESTROOMS", "rating": 3}, {"theme": '
                 '"SHOPPING", "rating": 0}, {"theme": "ATMOSPHERE", "rating": '
                 '5}]}'),
