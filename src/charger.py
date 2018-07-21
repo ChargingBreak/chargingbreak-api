@@ -35,18 +35,18 @@ def get_tips(charger_id):
             "chargerId": 632,
             "userId": 1,
             "theme": "ATMOSPHERE",
-            "description": """Up for a little detour? Take a drive through
-                scenic Skyline Drive, using the Front Royal entrance, about
-                6 miles from the Supercharger""",
+            "description": ('Up for a little detour? Take a drive through '
+                'scenic Skyline Drive, using the Front Royal entrance, about '
+                '6 miles from the Supercharger'),
             "photoUrl": "/img/uploads/IMG_7666.JPG"
         },
         {
             "chargerId": 632,
             "userId": 1,
             "theme": "FOOD",
-            "description": """If Burger King isn't your thing, call Little
-                Anthony's Pizza, and pick up your order on the way to the
-                Supercharger (it's right around the corner)""",
+            "description": ('If Burger King isn\'t your thing, call Little '
+                'Anthony\'s Pizza, and pick up your order on the way to the '
+                'Supercharger (it\'s right around the corner)'),
             "photoUrl":
                 "https://lh3.ggpht.com/p/AF1QipPUpgIgqbOXSziYf_D_iMZhWOwsYarml0TShqKM=s512"  # noqa: E501
         }
@@ -93,16 +93,18 @@ def get(event, context):
             item = table.get_item(
                 Key={'id': int(cid)})
 
-            # Munge lat/lon, had to un-nest for searching
-            data = item['Item']
+            if item and 'Item' in item:
+                data = item['Item']
 
-            # load up tips!
-            data['tips'] = get_tips(data['id'])
+                # load up tips!
+                data['tips'] = get_tips(data['id'])
 
-            # load up ratings
-            data['ratings'] = get_ratings(data['id'])
+                # load up ratings
+                data['ratings'] = get_ratings(data['id'])
 
-            body = json.dumps(data, cls=de.DecimalEncoder)
+                body = json.dumps(data, cls=de.DecimalEncoder)
+            else:
+                body = 'Invalid Charger Id'
         else:
             params = {
                 'TableName': os.environ['CHARGERS_TABLE'],
@@ -143,7 +145,7 @@ methods = {
 
 
 def main(event, context):
-    if 'httpMethod' in event:
+    if 'httpMethod' in event and event['httpMethod'] in methods:
         return methods[event['httpMethod']](event, context)
 
     return {
