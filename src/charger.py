@@ -2,7 +2,7 @@ import json
 import os
 
 import boto3
-from boto3.dynamodb.conditions import Attr
+from boto3.dynamodb.conditions import Attr, Key
 from src import decimalencoder as de
 
 
@@ -57,27 +57,33 @@ def get_tips(charger_id):
 
 
 def get_ratings(charger_id):
-    return [
-        {
-            "theme": "FOOD",
-            "rating": 3
-        },
-        {
-            "theme": "KIDS",
-            "rating": 3
-        },
-        {
-            "theme": "RESTROOMS",
-            "rating": 3
-        },
-        {
-            "theme": "SHOPPING",
-            "rating": 0
-        },
-        {
-            "theme": "ATMOSPHERE",
-            "rating": 5
-        }]
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table(os.environ['RATINGS_TABLE'])
+    ratings = table.query(
+        KeyConditionExpression=Key('charger_id').eq(charger_id),
+        IndexName='charger_id-index',
+        ProjectionExpression='theme, rating'
+    )
+
+    response = []
+    if 'Count' in ratings and ratings['Count'] > 0:
+        avg_ratings = {}
+        for rating in ratings['Items']:
+            if rating['theme'] not in avg_ratings.keys():
+                avg_ratings[rating['theme']] = {
+                    'count': 1,
+                    'trating': int(rating['rating'])
+                }
+            else:
+                avg_ratings[rating['theme']]['count'] += 1
+                avg_ratings[rating['theme']
+                            ]['trating'] += int(rating['rating'])
+
+        response = [{'theme': theme,
+                     'rating': round(r['trating'] / r['count'])}
+                    for theme, r in avg_ratings.items()]
+
+    return response
 
 
 def get(event, context):
