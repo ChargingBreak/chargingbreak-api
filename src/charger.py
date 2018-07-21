@@ -35,15 +35,20 @@ def get_tips(charger_id):
             "chargerId": 632,
             "userId": 1,
             "theme": "ATMOSPHERE",
-            "description": "Up for a little detour? Take a drive through scenic Skyline Drive, using the Front Royal entrance, about 6 miles from the Supercharger",
+            "description": """Up for a little detour? Take a drive through
+                scenic Skyline Drive, using the Front Royal entrance, about
+                6 miles from the Supercharger""",
             "photoUrl": "/img/uploads/IMG_7666.JPG"
         },
         {
             "chargerId": 632,
             "userId": 1,
             "theme": "FOOD",
-            "description": "If Burger King isn't your thing, call Little Anthony's Pizza, and pick up your order on the way to the Supercharger (it's right around the corner)",
-            "photoUrl": "https://lh3.ggpht.com/p/AF1QipPUpgIgqbOXSziYf_D_iMZhWOwsYarml0TShqKM=s512"
+            "description": """If Burger King isn't your thing, call Little
+                Anthony's Pizza, and pick up your order on the way to the
+                Supercharger (it's right around the corner)""",
+            "photoUrl":
+                "https://lh3.ggpht.com/p/AF1QipPUpgIgqbOXSziYf_D_iMZhWOwsYarml0TShqKM=s512"  # noqa: E501
         }
     ]
 

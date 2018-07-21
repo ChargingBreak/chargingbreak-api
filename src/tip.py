@@ -3,7 +3,6 @@ import os
 import uuid
 
 import boto3
-from boto3.dynamodb.conditions import Attr
 from src import decimalencoder as de
 
 
@@ -27,7 +26,8 @@ def post(event, context):
                     Item={
                         'id': str(uuid.uuid4()),
                         'charger_id': int(cid),
-                        'user_id': event['requestContext']['authorizer']['claims']['sub'],
+                        'user_id': event['requestContext']['authorizer'
+                                                           ]['claims']['sub'],
                         'text': postBody['text'],
                         'category': postBody['category']
                     }

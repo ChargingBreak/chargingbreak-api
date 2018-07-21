@@ -14,6 +14,7 @@ def main(event, context):
     except Exception as e:
         # some other error happened
         error = str(e)
+        return "We had an error: %s" % (error)
     else:
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table(os.environ['CHARGERS_TABLE'])
