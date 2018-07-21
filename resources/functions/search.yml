@@ -1,4 +1,7 @@
 search:
+  package:
+    exclude: resources/**
+    excludeDevDependencies: true
   handler: src/search.main
   description: >
     API /search - Search for chargers by .... (need to define)

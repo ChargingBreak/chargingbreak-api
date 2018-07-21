@@ -1,6 +1,13 @@
 adminUpdateChargers:
+  package:
+    exclude: resources/
+    excludeDevDependencies: true
   handler: src/admin/update.main
   timeout: 300 #need a long timeout to load everything, this is max
   description: >
     Download latest data from supercharge.info and
     load into DynamoDB:${self:provider.environment.CHARGERS_TABLE}
+  events:
+    - schedule:
+        rate: rate(24 hours)
+        enabled: true

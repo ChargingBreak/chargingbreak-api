@@ -1,4 +1,7 @@
 charger:
+  package:
+    exclude: resources/**
+    excludeDevDependencies: true
   handler: src/charger.main
   description: >
     API /charger/{id} - 
@@ -16,4 +19,4 @@ charger:
         integration: lambda-proxy
         request:
           paths:
-            id: false
+            id: true
