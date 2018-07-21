@@ -1,7 +1,8 @@
 search:
   package:
-    exclude: resources/**
-    excludeDevDependencies: true
+    include:
+      - src/search.py
+      - src/decimalencoder.py
   handler: src/search.main
   description: >
     API /search - Search for chargers by .... (need to define)

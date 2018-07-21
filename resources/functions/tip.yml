@@ -1,4 +1,8 @@
 tip:
+  package:
+    include:
+      - src/tip.py
+      - src/decimalencoder.py
   handler: src/tip.main
   description: >
     API /tip/{id} - 

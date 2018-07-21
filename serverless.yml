@@ -31,6 +31,14 @@ provider:
         - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIP_VOTES_TABLE}"
         - "arn:aws:dynamodb:*:*:table/${self:provider.environment.RATINGS_TABLE}"
         
+package:
+  individually: true
+  excludeDevDependencies: true
+  exclude:
+    - ./**
+  include:
+    - src/__init__.py
+            
 custom:
   defaultStage: ${git:branch}
   customDomain:

@@ -1,7 +1,8 @@
 charger:
   package:
-    exclude: resources/**
-    excludeDevDependencies: true
+    include:
+      - src/charger.py
+      - src/decimalencoder.py
   handler: src/charger.main
   description: >
     API /charger/{id} - 

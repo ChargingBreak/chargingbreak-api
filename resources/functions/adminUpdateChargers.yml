@@ -1,7 +1,9 @@
 adminUpdateChargers:
   package:
-    exclude: resources/
-    excludeDevDependencies: true
+    include:
+      - src/admin/__init__py
+      - src/admin/udpate.py
+      - src/__init__.py
   handler: src/admin/update.main
   timeout: 300 #need a long timeout to load everything, this is max
   description: >
