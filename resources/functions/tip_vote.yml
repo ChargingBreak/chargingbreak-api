@@ -1,0 +1,22 @@
+tip_vote:
+  package:
+    include:
+      - src/tip_vote.py
+      - src/decimalencoder.py
+  handler: src/vote.main
+  description: >
+    API /vote/{id} - 
+    Submit vote for a given tip.
+  events:
+    - http:
+        path: vote/{id}
+        method: post
+        cors: true
+        integration: lambda-proxy
+        request:
+          paths:
+            id: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId: 
+            Ref: ApiGatewayAuthorizer

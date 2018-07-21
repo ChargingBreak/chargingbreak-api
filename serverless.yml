@@ -60,6 +60,8 @@ functions:
   - ${file(resources/functions/adminUpdateChargers.yml)}
   - ${file(resources/functions/search.yml)}
   - ${file(resources/functions/tip.yml)}
+  - ${file(resources/functions/tip_vote.yml)}
+  - ${file(resources/functions/rating.yml)}
   - ${file(resources/functions/user.yml)}
   
 resources:

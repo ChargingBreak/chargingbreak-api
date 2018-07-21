@@ -1,0 +1,22 @@
+rating:
+  package:
+    include:
+      - src/rating.py
+      - src/decimalencoder.py
+  handler: src/rating.main
+  description: >
+    API /rating/{id} - 
+    Submit rating for a given charger.
+  events:
+    - http:
+        path: rating/{id}
+        method: post
+        cors: true
+        integration: lambda-proxy
+        request:
+          paths:
+            id: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId: 
+            Ref: ApiGatewayAuthorizer

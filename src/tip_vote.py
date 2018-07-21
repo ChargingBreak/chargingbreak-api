@@ -8,7 +8,7 @@ from src import decimalencoder as de
 
 def post(event, context):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table(os.environ['TIPS_TABLE'])
+    table = dynamodb.Table(os.environ['TIP_VOTES_TABLE'])
 
     postBody = json.loads(event['body'])
 
@@ -25,7 +25,7 @@ def post(event, context):
                 response = table.put_item(
                     Item={
                         'id': str(uuid.uuid4()),
-                        'charger_id': int(cid),
+                        'tip_id': int(cid),
                         'user_id': event['requestContext']['authorizer'
                                                            ]['claims']['sub'],
                         'text': postBody['text'],

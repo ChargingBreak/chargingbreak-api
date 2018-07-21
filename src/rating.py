@@ -8,7 +8,7 @@ from src import decimalencoder as de
 
 def post(event, context):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table(os.environ['TIPS_TABLE'])
+    table = dynamodb.Table(os.environ['RATINGS_TABLE'])
 
     postBody = json.loads(event['body'])
 
