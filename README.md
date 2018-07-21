@@ -21,11 +21,22 @@ Deploy CloudFormation stack
 ```
 sls deploy
 ```
+or
+```
+make deploy
+```
 
 Deploy single function
 
 ```
 sls deploy function -f <function_name>
+```
+
+## Python testing
+
+```
+make setup_test
+make test
 ```
 
 ## One time only Cognito Config steps
