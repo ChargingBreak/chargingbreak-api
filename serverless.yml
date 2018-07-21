@@ -27,12 +27,12 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:BatchGetItem
         - dynamodb:BatchWriteItem
-        - cognito-idp:*
+        - cognito-idp:ListUsers
       Resource:
-        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.CHARGERS_TABLE}"
-        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIPS_TABLE}"
-        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIP_VOTES_TABLE}"
-        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.RATINGS_TABLE}"
+        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.CHARGERS_TABLE}*"
+        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIPS_TABLE}*"
+        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIP_VOTES_TABLE}*"
+        - "arn:aws:dynamodb:*:*:table/${self:provider.environment.RATINGS_TABLE}*"
         - "${self:provider.environment.USER_POOL_ARN}"
         
 package:
