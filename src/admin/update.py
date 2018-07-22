@@ -8,6 +8,12 @@ import boto3
 DATA_URL = 'https://supercharge.info/service/supercharge/allSites'
 
 
+def charger_eq(existing, update):
+    return all((
+        key in existing and existing[key] == update[key]
+        for key in update.keys()))
+
+
 def main(event, context):
     try:
         local_filename, headers = urllib.request.urlretrieve(DATA_URL)
@@ -19,16 +25,47 @@ def main(event, context):
         dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table(os.environ['CHARGERS_TABLE'])
 
-        num_chargers = 0
-        with table.batch_writer() as batch:
-            with open(local_filename) as json_file:
-                chargers = json.load(json_file, parse_float=decimal.Decimal)
-                for charger in chargers:
-                    charger['latitude'] = charger['gps']['latitude']
-                    charger['longitude'] = charger['gps']['longitude']
-                    del charger['gps']
+        num_chargers = num_chargers_new = num_chargers_updated = 0
+        with open(local_filename) as json_file:
+            chargers = json.load(json_file, parse_float=decimal.Decimal)
+            for charger in chargers:
+                num_chargers += 1
+                charger['latitude'] = charger['gps']['latitude']
+                charger['longitude'] = charger['gps']['longitude']
+                del charger['gps']
 
-                    batch.update_item(Item=charger)
-                    num_chargers = num_chargers + 1
+                try:
+                    existing_charger = table.get_item(
+                        Key={'id': int(charger['id'])})['Item']
+                except Exception as e:
+                    num_chargers_new += 1
+                    table.put_item(Item=charger)
+                else:
+                    if charger_eq(existing_charger, charger):
+                        # no need to update
+                        continue
 
-    return "We loaded up %s chargers!" % (num_chargers)
+                    expressionAttributeNames = dict([
+                        ('#%s' % key, key)
+                        for key in charger.keys() if key != 'id'])
+
+                    updateExpression = 'set %s' % (', '.join([
+                        '#%s = :%s' % (key, key)
+                        for key in charger.keys() if key != 'id']))
+
+                    expressionAttributeValues = dict([(
+                        ':%s' % key, val)
+                        for key, val in charger.items()
+                        if key != 'id'])
+
+                    table.update_item(
+                        Key={'id': int(charger['id'])},
+                        UpdateExpression=updateExpression,
+                        ExpressionAttributeNames=expressionAttributeNames,
+                        ExpressionAttributeValues=expressionAttributeValues,
+                        ReturnValues='NONE',
+                    )
+                    num_chargers_updated += 1
+
+    return ("We updated %s chargers and created %s chargers for a total "
+            "of %s!") % (num_chargers_updated, num_chargers_new, num_chargers)
