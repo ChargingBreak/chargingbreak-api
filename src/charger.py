@@ -56,7 +56,7 @@ def get_tips(charger_id):
     ]
 
 
-def get_ratings_default(charger_id):
+def get_ratings_default():
     return [{
         'theme': category.strip(),
         'rating': 0
