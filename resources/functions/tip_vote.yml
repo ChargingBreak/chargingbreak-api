@@ -14,8 +14,9 @@ tip_vote:
         cors: true
         integration: lambda-proxy
         request:
-          paths:
-            id: true
+          parameters:
+            paths:
+              id: true
         authorizer:
           type: COGNITO_USER_POOLS
           authorizerId: 

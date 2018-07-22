@@ -3,6 +3,7 @@ user:
     include:
       - src/user.py
       - src/decimalencoder.py
+      - src/helpers.py
   handler: src/user.main
   description: >
     API /user/{user_sub} - 
@@ -14,5 +15,6 @@ user:
         cors: true
         integration: lambda-proxy
         request:
-          paths:
-            user_sub: true
+          parameters:
+            paths:
+              user_sub: true

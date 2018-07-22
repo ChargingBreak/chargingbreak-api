@@ -3,6 +3,7 @@ rating:
     include:
       - src/rating.py
       - src/decimalencoder.py
+      - src/helpers.py
   handler: src/rating.main
   description: >
     API /rating/{id} - 
@@ -14,8 +15,9 @@ rating:
         cors: true
         integration: lambda-proxy
         request:
-          paths:
-            id: true
+          parameters:
+            paths:
+              id: true
         authorizer:
           type: COGNITO_USER_POOLS
           authorizerId: 

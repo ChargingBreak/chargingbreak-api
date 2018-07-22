@@ -16,6 +16,9 @@ provider:
     RATINGS_TABLE: ratings
     USER_POOL_ARN:
       Fn::GetAtt: [ CBUser, Arn ]
+    LAMBDA_FUNCTION_PREFIX: ${self:service}-${self:provider.stage}
+    RATING_TYPES: 'FOOD, KIDS, RESTROOMS, SHOPPING, ATMOSPHERE'
+    RATING_WEIGHT: 'USER=1, VERIFIED=3, ADMIN=5'
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -27,13 +30,19 @@ provider:
         - dynamodb:DeleteItem
         - dynamodb:BatchGetItem
         - dynamodb:BatchWriteItem
+        - dynamodb:DescribeStream
+        - dynamodb:GetRecords
+        - dynamodb:GetShardIterator
+        - dynamodb:ListStreams
         - cognito-idp:ListUsers
+        - lambda:InvokeFunction
       Resource:
         - "arn:aws:dynamodb:*:*:table/${self:provider.environment.CHARGERS_TABLE}*"
         - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIPS_TABLE}*"
         - "arn:aws:dynamodb:*:*:table/${self:provider.environment.TIP_VOTES_TABLE}*"
         - "arn:aws:dynamodb:*:*:table/${self:provider.environment.RATINGS_TABLE}*"
         - "${self:provider.environment.USER_POOL_ARN}"
+        - "arn:aws:lambda:*:*:function:${self:service}-${self:provider.stage}-rating_cache"
         
 package:
   individually: true
@@ -62,6 +71,7 @@ functions:
   - ${file(resources/functions/tip.yml)}
   - ${file(resources/functions/tip_vote.yml)}
   - ${file(resources/functions/rating.yml)}
+  - ${file(resources/functions/rating_cache.yml)}
   - ${file(resources/functions/user.yml)}
   
 resources:

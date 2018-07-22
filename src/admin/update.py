@@ -28,7 +28,7 @@ def main(event, context):
                     charger['longitude'] = charger['gps']['longitude']
                     del charger['gps']
 
-                    batch.put_item(Item=charger)
+                    batch.update_item(Item=charger)
                     num_chargers = num_chargers + 1
 
     return "We loaded up %s chargers!" % (num_chargers)

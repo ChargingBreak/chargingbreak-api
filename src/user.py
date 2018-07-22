@@ -1,9 +1,8 @@
 import json
-import os
 from datetime import date, datetime
 
-import boto3
 from src import decimalencoder as de
+from src.helpers import get_user
 
 
 def json_serial(obj):
@@ -15,8 +14,6 @@ def json_serial(obj):
 
 
 def get(event, context):
-    user_pool_arn = os.environ['USER_POOL_ARN']
-    user_pool_id = user_pool_arn.split(':')[5].split('/')[1]
 
     user_sub = event['pathParameters']['user_sub'] if (
         'pathParameters' in event
@@ -24,17 +21,8 @@ def get(event, context):
         and 'user_sub' in event['pathParameters']) else None
 
     if user_sub:
-        client = boto3.client('cognito-idp')
-        users = client.list_users(
-            UserPoolId=user_pool_id,
-            Filter="sub = '%s'" % user_sub,
-        )
-
-        if users and 'Users' in users and len(users['Users']) > 0:
-            user_raw = users['Users'][0]
-
-            # Attributes is an array of dict, lets simplify
-            attrs = {a['Name']: a['Value'] for a in user_raw['Attributes']}
+        attrs = get_user(user_sub)
+        if attrs:
             user_info = {
                 'name': attrs['name'],
                 'photoUrl': attrs['picture'],
@@ -70,11 +58,6 @@ def get(event, context):
     }
 
 
-methods = {
-    'GET': get,
-}
-
-
 def main(event, context):
     if 'httpMethod' in event:
         return methods[event['httpMethod']](event, context)
@@ -90,3 +73,8 @@ def main(event, context):
             'Access-Control-Allow-Credentials': 'true',
         },
     }
+
+
+methods = {
+    'GET': get,
+}

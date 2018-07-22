@@ -1,0 +1,18 @@
+rating_cache:
+  package:
+    include:
+      - src/rating.py
+      - src/decimalencoder.py
+      - src/helpers.py
+  handler: src/rating.cache
+  description: > 
+    Caches average ratings in the charger table
+  event:
+    - stream:
+        type: dynamodb
+        arn:
+          Fn::GetAtt:
+            - ratings
+            - StreamArn
+        batchSize: 1
+        enabled: true

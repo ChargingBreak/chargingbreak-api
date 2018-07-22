@@ -15,6 +15,8 @@ Resources:
       ProvisionedThroughput: 
         ReadCapacityUnits: 2
         WriteCapacityUnits: 2
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
       GlobalSecondaryIndexes:
         - IndexName: "charger_id-index"
           KeySchema:
