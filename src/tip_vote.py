@@ -21,22 +21,16 @@ def post(event, context):
             and event['pathParameters']
             and 'id' in event['pathParameters']) else None
         if cid and cid.isdigit():
-            if 'text' in postBody and 'category' in postBody:
-                response = table.put_item(
-                    Item={
-                        'id': str(uuid.uuid4()),
-                        'tip_id': int(cid),
-                        'user_id': event['requestContext']['authorizer'
-                                                           ]['claims']['sub'],
-                        'text': postBody['text'],
-                        'category': postBody['category']
-                    }
-                )
+            response = table.put_item(
+                Item={
+                    'id': str(uuid.uuid4()),
+                    'tip_id': int(cid),
+                    'user_id': event['requestContext']['authorizer'
+                                                       ]['claims']['sub']
+                }
+            )
 
-                responseBody = json.dumps(response, cls=de.DecimalEncoder)
-            else:
-                statusCode = 400
-                responseBody = json.dumps({'message': 'Invalid parameters'})
+            responseBody = json.dumps(response, cls=de.DecimalEncoder)
         else:
             statusCode = 404
             responseBody = json.dumps({'message': 'Unknown charger'})
