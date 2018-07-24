@@ -23,15 +23,15 @@ def post(event, context):
             and event['pathParameters']
             and 'id' in event['pathParameters']) else None
         if cid and cid.isdigit():
-            if 'text' in postBody and 'category' in postBody:
+            if 'rating' in postBody and 'theme' in postBody:
                 response = table.put_item(
                     Item={
                         'id': str(uuid.uuid4()),
                         'charger_id': int(cid),
                         'user_id': event['requestContext']['authorizer'
                                                            ]['claims']['sub'],
-                        'text': postBody['text'],
-                        'category': postBody['category']
+                        'rating': postBody['rating'],
+                        'theme': postBody['theme']
                     }
                 )
 
