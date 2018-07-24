@@ -2,7 +2,7 @@ import json
 import os
 
 import boto3
-from boto3.dynamodb.conditions import Attr
+from boto3.dynamodb.conditions import Attr, Key
 from src import decimalencoder as de
 
 
@@ -23,37 +23,15 @@ def post(event, context):
 
 
 def get_tips(charger_id):
-    return [
-        {
-            "chargerId": 632,
-            "userId": 1,
-            "theme": "ATMOSPHERE",
-            "description": "The views here are amazing",
-            "photoUrl": "/img/uploads/IMG_1507.JPG"
-        },
-        {
-            "chargerId": 632,
-            "userId": 1,
-            "theme": "ATMOSPHERE",
-            "description": ('Up for a little detour? Take a drive through '
-                            'scenic Skyline Drive, using the Front Royal '
-                            'entrance, about 6 miles from the Supercharger'),
-            "photoUrl": "/img/uploads/IMG_7666.JPG"
-        },
-        {
-            "chargerId": 632,
-            "userId": 1,
-            "theme": "FOOD",
-            "description": ('If Burger King isn\'t your thing, call Little '
-                            'Anthony\'s Pizza, and pick up your order on the '
-                            'way to the Supercharger (it\'s right around the '
-                            'corner)'),
-            "photoUrl":
-                ('https://lh3.ggpht.com/p/AF1QipPUpgIgqbOXSziYf_D_iMZhWOwsYa'
-                 'rml0TShqKM=s512')
+    dynamodb = boto3.resource('dynamodb')
+    tips_table = dynamodb.Table(os.environ['TIPS_TABLE'])
 
-        }
-    ]
+    tips = tips_table.query(
+        KeyConditionExpression=Key('charger_id').eq(int(charger_id)),
+        IndexName='charger_id-index'
+    )
+
+    return tips['Items']
 
 
 def get_ratings_default():
