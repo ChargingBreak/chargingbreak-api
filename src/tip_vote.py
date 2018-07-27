@@ -10,7 +10,7 @@ def post(event, context):
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(os.environ['TIP_VOTES_TABLE'])
 
-    postBody = json.loads(event['body'])
+    # postBody = json.loads(event['body'])
 
     responseBody = "Unknown Error"
     statusCode = 200
