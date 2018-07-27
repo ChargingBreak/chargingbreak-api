@@ -1,4 +1,8 @@
 ---
 language: python
+before_script:
+  flake8
+script:
+  pytest
 install:
   - pip install -r requirements_test.txt
