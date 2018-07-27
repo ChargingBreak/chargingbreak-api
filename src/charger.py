@@ -26,12 +26,15 @@ def get_tips(charger_id):
     dynamodb = boto3.resource('dynamodb')
     tips_table = dynamodb.Table(os.environ['TIPS_TABLE'])
 
-    tips = tips_table.query(
-        KeyConditionExpression=Key('charger_id').eq(int(charger_id)),
-        IndexName='charger_id-index'
-    )
-
-    return tips['Items']
+    try:
+        tips = tips_table.query(
+            KeyConditionExpression=Key('charger_id').eq(int(charger_id)),
+            IndexName='charger_id-index'
+        )
+    except Exception as e:
+        return []
+    else:
+        return tips['Items']
 
 
 def get_ratings_default():
