@@ -8,3 +8,4 @@ script:
   pytest
 install:
   - pip install -r requirements_test.txt
+  - pip install moto
