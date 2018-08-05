@@ -1,6 +1,7 @@
 import json
 import os
 import uuid
+from datetime.datetime import utcnow
 
 import boto3
 from src import decimalencoder as de
@@ -29,7 +30,8 @@ def post(event, context):
                         'user_id': event['requestContext']['authorizer'
                                                            ]['claims']['sub'],
                         'text': postBody['text'],
-                        'theme': postBody['theme']
+                        'theme': postBody['theme'],
+                        'created': round(utcnow().timestamp()),
                     }
                 )
 

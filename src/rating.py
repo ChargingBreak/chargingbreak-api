@@ -1,6 +1,7 @@
 import json
 import os
 import uuid
+from datetime.datetime import utcnow
 
 import boto3
 from boto3.dynamodb.conditions import Key
@@ -31,7 +32,8 @@ def post(event, context):
                         'user_id': event['requestContext']['authorizer'
                                                            ]['claims']['sub'],
                         'rating': postBody['rating'],
-                        'theme': postBody['theme']
+                        'theme': postBody['theme'],
+                        'created': round(utcnow().timestamp()),
                     }
                 )
 
