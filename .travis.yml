@@ -9,6 +9,7 @@ before_script:
   - flake8
 script:
   - pytest
+after_success:
   - npm install -g serverless && npm install
   - sls deploy --stage master
 notifications:
