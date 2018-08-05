@@ -10,7 +10,7 @@ before_script:
 script:
   - pytest
   - npm install -g serverless && npm install
-  - sls deploy
+  - sls deploy --stage master
 notifications:
   slack:
     secure: L/yFmrVenHq6sdEst+DdOHomvvW/aKvEiflZYuxEUnL2KvQ5A1SSkITBGqhgZVjdZMfx+bwPWGyqHKNHMAy668ZQ5EDYmuPH9BXLrwS9Dzv6Y64MHEqMpQYopbssHlg3jpJUfizfXv8PHPlzS8UKupy8ugAiD1qmbi628/gYKCiQXSpxXYpapcPFhSgCfh2bL7L/IhdyMqvKc5PjEeYSKBg9KxUa0kTxZi6PC3L6uYDY5+kABhPsTBhNjVMr5Namz1PmB4g4q0bmTZ5Wcir8/50sDV59vwy1G+nQnJliqVhubhpR7qlr/OKmPsbY8VlCLtssV9BeBelXrpp0b4lzMSxUzhHCdXaIAVssa6mpaFKVwRR5pnfXeaorh/r4AoFcXy/HFHToB1Fcrw9V96UNpWFMdxw9sTdRD6R+/MeszKd2yLysmX8Y0EvpT0ymorEsrQHYpkmVcix9eSSxzM76luxP4H26wWUtJ3RkWto6XO+D6DeppfsLSbbJ0i07+8CbaBUT5JviLAW1XvxGFG/KzRh4++fudRAgPHjMhShL1YEfaIUkxCGxCvH5XtGX58OarGvQWGz+hsZvakrOQl6v9ymN9Ghcqx1CIQ+Jww4JPVfv5qj9B832BRCaJyUHejItu/GBq2G1lTFVcWwY+fvIylToSjXEWIUQb7rqwJ5WwW0=
