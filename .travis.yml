@@ -1,17 +1,16 @@
----
 language: python
 python:
-  - "3.6"
+  - '3.6'
 cache: pip
 install:
   - pip install -r requirements_test.txt
   - pip install moto
-
 before_script:
   - flake8
 script:
   - pytest
-
+deploy:
+  - sls deploy
 notifications:
   slack:
-    secure: ngJe1Y7EKojo/MdpM3I2LzkguaxIUmaWwNZDLYj6zIhTJ9TOit3e0mA9LMi7IbZix9WvDGd7Qw09irSge9J5LkhLkGSu7tjbi6xrz0sSU1cWYjlS1OtY01QM7xnfsGNd4UDM8XwT+biVN4EWUaAnZlWBZ8dl0AMmtFDir/LTg8RtMHqkMe/TqChxF8DjCWcJZ6c2sZPt1R8L90otDP4mMRbVCocBCc9hCWkdDNlFfL73GpnxKUM8LSvjqK1iKGDy1EwnzvsZExsYelBOFc3zBU5q2ztDtvPq9jhqAhnK41ZGoojXHZXW5mnXlaaw3Wcsx5fihoT3tynZL36nRxA1B/zRCsXblp1GouAfZ6u3sMXErjyiA+xJU0YKZvbdjLD4Wj9BZnxh/fv3bDRWa7S8ZC7yh7+0oP1DFsdlj/Lt4YyuuES82DEs4DUZjJl5943y61B4kJ4SrHHSefdBb3IjSJnQcJcVe2qSW4QyVY9fozJzOlYPWyHPEsGOZ+n4qhZhYVS8eLQbu82/OxtWP/h+ZiJHlBIbLuUEVdJOKv1s1WPDN5quBJF1Wp0mRfI82zMnM1goiA3q8LbxLwQuiHK0cOBq1xNCiI+JSzLcBniG/T0lwWZjPkllTNJzin+4jOX615lwyvYoHOeOHwOhkStDbH4LhEjnp+t1h30rigKQL60=
+    secure: L/yFmrVenHq6sdEst+DdOHomvvW/aKvEiflZYuxEUnL2KvQ5A1SSkITBGqhgZVjdZMfx+bwPWGyqHKNHMAy668ZQ5EDYmuPH9BXLrwS9Dzv6Y64MHEqMpQYopbssHlg3jpJUfizfXv8PHPlzS8UKupy8ugAiD1qmbi628/gYKCiQXSpxXYpapcPFhSgCfh2bL7L/IhdyMqvKc5PjEeYSKBg9KxUa0kTxZi6PC3L6uYDY5+kABhPsTBhNjVMr5Namz1PmB4g4q0bmTZ5Wcir8/50sDV59vwy1G+nQnJliqVhubhpR7qlr/OKmPsbY8VlCLtssV9BeBelXrpp0b4lzMSxUzhHCdXaIAVssa6mpaFKVwRR5pnfXeaorh/r4AoFcXy/HFHToB1Fcrw9V96UNpWFMdxw9sTdRD6R+/MeszKd2yLysmX8Y0EvpT0ymorEsrQHYpkmVcix9eSSxzM76luxP4H26wWUtJ3RkWto6XO+D6DeppfsLSbbJ0i07+8CbaBUT5JviLAW1XvxGFG/KzRh4++fudRAgPHjMhShL1YEfaIUkxCGxCvH5XtGX58OarGvQWGz+hsZvakrOQl6v9ymN9Ghcqx1CIQ+Jww4JPVfv5qj9B832BRCaJyUHejItu/GBq2G1lTFVcWwY+fvIylToSjXEWIUQb7rqwJ5WwW0=

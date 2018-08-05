@@ -56,55 +56,55 @@ class TestMethodsClass(object):
         invalid_method = charger.main({'httpMethod': 'POST'}, None)
         assert invalid_method != self.status_404
 
+    @moto.mock_dynamodb2
     @mock.patch.dict(os.environ, {'CHARGERS_TABLE': CHARGERS_TABLE})
     @mock.patch.dict(os.environ, {
         'RATING_TYPES': 'FOOD, KIDS, RESTROOMS, SHOPPING, ATMOSPHERE'
     })
     def test_http_get_all_chargers_invalid(self):
-        with moto.mock_dynamodb2():
-            from src import charger
+        from src import charger
 
-            event = {
-                'httpMethod': 'GET',
-                'pathParameters': {
-                    'id': 'INVALID',
+        event = {
+            'httpMethod': 'GET',
+            'pathParameters': {
+                'id': 'INVALID',
+            },
+        }
+
+        dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+
+        table = dynamodb.create_table(
+            TableName=CHARGERS_TABLE,
+            KeySchema=[
+                {
+                    'AttributeName': 'id',
+                    'KeyType': 'HASH'
                 },
+            ],
+            AttributeDefinitions=[
+                {
+                    'AttributeName': 'id',
+                    'AttributeType': 'N'
+                },
+            ],
+            ProvisionedThroughput={
+                'ReadCapacityUnits': 5,
+                'WriteCapacityUnits': 5
             }
+        )
 
-            dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+        table = dynamodb.Table(CHARGERS_TABLE)
+        table.put_item(Item=self.sc_test_data)
 
-            table = dynamodb.create_table(
-                TableName=CHARGERS_TABLE,
-                KeySchema=[
-                    {
-                        'AttributeName': 'id',
-                        'KeyType': 'HASH'
-                    },
-                ],
-                AttributeDefinitions=[
-                    {
-                        'AttributeName': 'id',
-                        'AttributeType': 'N'
-                    },
-                ],
-                ProvisionedThroughput={
-                    'ReadCapacityUnits': 5,
-                    'WriteCapacityUnits': 5
-                }
-            )
-
-            table = dynamodb.Table(CHARGERS_TABLE)
-            table.put_item(Item=self.sc_test_data)
-
-            response = charger.main(event, None)
-            assert {
-                'statusCode': 200,
-                'body': '[]',
-                'headers': {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Credentials': 'true'
-                },
-            } == response
+        response = charger.main(event, None)
+        assert {
+            'statusCode': 200,
+            'body': '[]',
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+        } == response
 
     @moto.mock_dynamodb2
     @mock.patch.dict(os.environ, {'CHARGERS_TABLE': CHARGERS_TABLE})
