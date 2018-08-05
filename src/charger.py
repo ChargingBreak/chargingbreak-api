@@ -23,7 +23,7 @@ def post(event, context):
 
 
 def get_tips(charger_id):
-    dynamodb = boto3.resource('dynamodb')
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
     tips_table = dynamodb.Table(os.environ['TIPS_TABLE'])
 
     try:
@@ -45,7 +45,7 @@ def get_ratings_default():
 
 
 def get(event, context):
-    dynamodb = boto3.resource('dynamodb')
+    dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
     table = dynamodb.Table(os.environ['CHARGERS_TABLE'])
 
     body = "Unknown Error"
