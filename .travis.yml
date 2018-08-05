@@ -9,7 +9,6 @@ before_script:
   - flake8
 script:
   - pytest
-deploy:
   - sls deploy
 notifications:
   slack:
