@@ -3,12 +3,13 @@ python:
   - '3.6'
 cache: pip
 install:
-  - pip install -g -r requirements_test.txt
+  - pip install -r requirements_test.txt
   - pip install moto
 before_script:
   - flake8
 script:
   - pytest
+  - npm install -g serverless
   - sls deploy
 notifications:
   slack:
