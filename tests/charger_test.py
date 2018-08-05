@@ -220,10 +220,11 @@ class TestMethodsClass(object):
                 ': 6.0, "counted": true, "elevationMeters": 204.0, '
                 '"powerKilowatt": 0.0, "solarCanopy": false, "battery": '
                 'false, "statusDays": 0.0, "urlDiscuss": true, "tips": [], '
-                '"ratings": [{"theme": "FOOD", "rating": 0}, {"theme": '
-                '"KIDS", "rating": 0}, {"theme": "RESTROOMS", "rating": 0}, '
-                '{"theme": "SHOPPING", "rating": 0}, {"theme": "ATMOSPHERE", '
-                '"rating": 0}]}'),
+                '"ratings": [{"theme": "FOOD", "rating": 0, "count": 0}, {'
+                '"theme": "KIDS", "rating": 0, "count": 0}, {"theme": '
+                '"RESTROOMS", "rating": 0, "count": 0}, {"theme": "SHOPPING", '
+                '"rating": 0, "count": 0}, {"theme": "ATMOSPHERE", '
+                '"rating": 0, "count": 0}]}'),
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Credentials': 'true',
