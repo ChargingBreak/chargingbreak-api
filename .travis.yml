@@ -2,10 +2,12 @@
 language: python
 python:
   - "3.6"
-before_script:
-  flake8
-script:
-  pytest
+cache: pip
 install:
-  - pip install -r requirements_test.txt
-  - pip install moto
+  - pip install --user -r requirements_test.txt
+  - pip install --user moto
+
+before_script:
+  - flake8
+script:
+  - pytest
