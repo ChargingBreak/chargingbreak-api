@@ -56,13 +56,12 @@ class TestMethodsClass(object):
         invalid_method = charger.main({'httpMethod': 'POST'}, None)
         assert invalid_method != self.status_404
 
-    @moto.mock_dynamodb2
     @mock.patch.dict(os.environ, {'CHARGERS_TABLE': CHARGERS_TABLE})
     @mock.patch.dict(os.environ, {
         'RATING_TYPES': 'FOOD, KIDS, RESTROOMS, SHOPPING, ATMOSPHERE'
     })
     def test_http_get_all_chargers_invalid(self):
-        with moto.mock_dynamodb2:
+        with moto.mock_dynamodb2():
             from src import charger
 
             event = {
