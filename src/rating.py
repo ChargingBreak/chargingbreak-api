@@ -163,6 +163,7 @@ def cache(event, context):
         compiled_ratings[category] = {
             'count': 0,
             'rating': 0,
+            'real_count': 0,
         }
 
     for rating in ratings['Items']:
@@ -172,12 +173,14 @@ def cache(event, context):
                 rating['user_id'])
         user_rating_weight = users[rating['user_id']]
         compiled_ratings[category]['count'] += user_rating_weight
+        compiled_ratings[category]['real_count'] += 1
         for r in range(0, user_rating_weight):
             compiled_ratings[category]['rating'] += rating['rating']
 
     avg_ratings = [{'theme': theme,
                     'rating': round(r['rating'] / r['count']
-                                    ) if r['count'] > 0 else 0}
+                                    ) if r['count'] > 0 else 0,
+                    'count': r['real_count']}
                    for theme, r in compiled_ratings.items()]
 
     chargers_table.update_item(

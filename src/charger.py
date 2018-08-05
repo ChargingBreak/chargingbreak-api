@@ -40,7 +40,8 @@ def get_tips(charger_id):
 def get_ratings_default():
     return [{
         'theme': category.strip(),
-        'rating': 0
+        'rating': 0,
+        'count': 0,
     } for category in os.environ['RATING_TYPES'].split(',')]
 
 
