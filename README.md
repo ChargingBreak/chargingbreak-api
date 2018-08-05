@@ -1,5 +1,7 @@
 # ChargingBreak API
 
+[![Build](https://travis-ci.org/ChargingBreak/chargingbreak-api.svg?branch=master)](https://travis-ci.org/ChargingBreak/chargingbreak-api)
+
 ## Dependencies
 
 Install JavaScript dependencies via npm after cloning the repository:
