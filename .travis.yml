@@ -4,10 +4,14 @@ python:
   - "3.6"
 cache: pip
 install:
-  - pip install --user -r requirements_test.txt
-  - pip install --user moto
+  - pip install -r requirements_test.txt
+  - pip install moto
 
 before_script:
   - flake8
 script:
   - pytest
+
+notifications:
+  slack:
+    secure: ngJe1Y7EKojo/MdpM3I2LzkguaxIUmaWwNZDLYj6zIhTJ9TOit3e0mA9LMi7IbZix9WvDGd7Qw09irSge9J5LkhLkGSu7tjbi6xrz0sSU1cWYjlS1OtY01QM7xnfsGNd4UDM8XwT+biVN4EWUaAnZlWBZ8dl0AMmtFDir/LTg8RtMHqkMe/TqChxF8DjCWcJZ6c2sZPt1R8L90otDP4mMRbVCocBCc9hCWkdDNlFfL73GpnxKUM8LSvjqK1iKGDy1EwnzvsZExsYelBOFc3zBU5q2ztDtvPq9jhqAhnK41ZGoojXHZXW5mnXlaaw3Wcsx5fihoT3tynZL36nRxA1B/zRCsXblp1GouAfZ6u3sMXErjyiA+xJU0YKZvbdjLD4Wj9BZnxh/fv3bDRWa7S8ZC7yh7+0oP1DFsdlj/Lt4YyuuES82DEs4DUZjJl5943y61B4kJ4SrHHSefdBb3IjSJnQcJcVe2qSW4QyVY9fozJzOlYPWyHPEsGOZ+n4qhZhYVS8eLQbu82/OxtWP/h+ZiJHlBIbLuUEVdJOKv1s1WPDN5quBJF1Wp0mRfI82zMnM1goiA3q8LbxLwQuiHK0cOBq1xNCiI+JSzLcBniG/T0lwWZjPkllTNJzin+4jOX615lwyvYoHOeOHwOhkStDbH4LhEjnp+t1h30rigKQL60=
